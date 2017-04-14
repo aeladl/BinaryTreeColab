@@ -26,15 +26,6 @@
     else
     return addItem(item, thisRoot.right);
   }
-  public void remove(T item) throws NullPointerException{
-    Node<T> n = this.get(item);
-    //Consider Null case
-    Node<T> x = n.left;
-    while(x.right != null){
-      x = x.right;
-    }
-
-  }
   public boolean contains(T item){
     return this.conatins(item, root);
   }

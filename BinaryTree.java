@@ -57,7 +57,7 @@ public class BinaryTree<T> {
         queue.element().right = new Node(item);
       }
     }
-    //TODO
+    //TODO - Alex
     public void remove(T item) throws NullPointerException{
       if(!this.contains(item)) throw new NullPointerException("You Fool!!! Why???");
 
@@ -96,11 +96,11 @@ public class BinaryTree<T> {
 
       }
     }
-    //TODO
+    //TODO - Wilson
     public java.util.Iterator<T> breadthFirst(){
 
     }
-    //TODO
+    //TODO - Wilson
     public java.util.Iterator<T> depthFirst(){
 
     }
