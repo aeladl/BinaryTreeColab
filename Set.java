@@ -1,12 +1,6 @@
 public class Set<T> extends BinarySetTree{
   public Set(){
   }
-  public boolean empty(){
-    return root == null;
-  }
-  public void clear(){
-    root = null;
-  }
   public boolean add(T item) {
     if(item == null)
     throw new NullPointerException();

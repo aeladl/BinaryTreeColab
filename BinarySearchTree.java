@@ -1,12 +1,6 @@
  public class BinarySearchTree<T> extends BinaryTree{
   public BinarySearchTree(){
   }
-  public boolean empty(){
-    return root == null;
-  }
-  public void clear(){
-    root = null;
-  }
   public boolean add(T item) {
     if(item == null)
     throw new NullPointerException();
@@ -25,8 +19,5 @@
 
     else
     return addItem(item, thisRoot.right);
-  }
-  public boolean contains(T item){
-    return this.conatins(item, root);
   }
 }
