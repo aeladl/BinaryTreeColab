@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class BinaryTree<T> {
   protected Node<T> root;
@@ -8,33 +9,43 @@ public class BinaryTree<T> {
     public Node<T> left;
     public Node<T> right;
 
-      public Node(){}
+    public Node(){}
+
       public Node(T content){
         this.content = content;
       }
       public void setContent(T item){
         this.content = item;
       }
+
       public T getContent(){
         return this.content;
       }
+
+      public Node<T> getLeft(){
+        return this.left;
+      }
+
+      public Node<T> getRight(){
+        return this.right;
+      }
+
       public boolean addLeft(Node<T> n, T item){
         n.left = new Node<T>(item);
         return true;
       }
+
       public boolean addRight(Node<T> n, T item){
         n.right = new Node<T>(item);
         return true;
       }
-      public int hasHowMany(){
-        if(left == null && right == null) return 0;
-        else if(left == null ^ right == null) return 1;
-        else if(left != null && right != null) return 2;
-        return -1;
-      }
     }
 
     public BinaryTree(){
+    }
+
+    public Node<T> getRoot(){
+      return root;
     }
     public boolean empty(){
       return root == null;
@@ -45,10 +56,10 @@ public class BinaryTree<T> {
     public boolean add(T item){
       LinkedList queue = new LinkedList();
       queue.add(root);
-      while(queue.element().hasHowMany() == 2){
-        queue.add((Node) queue.element().left);
-        queue.add((Node)queue.element().right);
-        queue.removeFirst();
+      while(hasHowMany((Node<T>)queue.element()) == 2){
+        queue.add((Node<T>) queue.element().left);
+        queue.add((Node<T>) queue.element().right);
+        queue.remove();
       }
       if (queue.element().left == null){
         queue.element().left = new Node(item);
@@ -57,13 +68,19 @@ public class BinaryTree<T> {
         queue.element().right = new Node(item);
       }
     }
-    //TODO - Alex
+    private int hasHowMany(Node<T> n){
+      if(n.left == null && n.right == null) return 0;
+      else if(n.left == null ^ n.right == null) return 1;
+      else if(n.left != null && n.right != null) return 2;
+      return -1;
+    }
+    //TODO
     public void remove(T item) throws NullPointerException{
       if(!this.contains(item)) throw new NullPointerException("You Fool!!! Why???");
 
     }
     public boolean contains(T item){
-      return this.conatins(item, root);
+      return this.contains(item, root);
     }
     public boolean contains(T item, Node<T> n){
       if (n.getContent() == item){
@@ -86,22 +103,28 @@ public class BinaryTree<T> {
 
       }
     }
-    //TODO
-    public Node<T> get(T item, Node<T> n){
-      if (n.getContent() = item){
-        return n;
-      }
-      if ()
-      else{
+    // //TODO
+    // public Node<T> get(T item, Node<T> n){
+    //   if (n.getContent() = item){
+    //     return n;
+    //   }
+    //   if ()
+    //   else{
+    //
+    //   }
+    // }
+    //
+    // public java.util.Iterator<T> breadthFirst(){
+    //   return new TreeIterable(this, false);
 
-      }
-    }
-    //TODO - Wilson
-    public java.util.Iterator<T> breadthFirst(){
+    // //TODO
+    // public java.util.Iterator<T> breadthFirst(){
+    //
+    // }
 
-    }
-    //TODO - Wilson
-    public java.util.Iterator<T> depthFirst(){
+    // //TODO
+    // public java.util.Iterator<T> depthFirst(){
+    //
+    // }
 
-    }
   }
