@@ -1,12 +1,6 @@
 public class Set<T> extends BinarySetTree{
   public Set(){
   }
-  public boolean empty(){
-    return root == null;
-  }
-  public void clear(){
-    root = null;
-  }
   public boolean add(T item) {
     if(item == null)
     throw new NullPointerException();
@@ -30,19 +24,30 @@ public class Set<T> extends BinarySetTree{
     return false;
 
   }
-  //TODO
-  public void remove(T item) throws NullPointerException{
-
-  }
   public boolean contains(T item){
     return this.conatins(item, root);
   }
-  //TODO
+  //TEST
+  //Change name of iterator
   public Set union(Set other){
-
+    for (Node<T> j: new MyIterable<T>(other)){
+            for (Node<T> i: new MyIterable<T>(this)){
+            if (j.getContent().compareTo(i.getContent()) != 0)
+              other.add(i);
+          }
+        }
+        return other;
   }
-  //TODO
+  //TEST
+  //Change name of iterator
   public Set intersection(Set other){
-
+    Set<T> n = new Set<T>();
+    for (Node<T> i: new MyIterable<T>(this)){
+            for (Node<T> j: new MyIterable<T>(other)){
+            if (j.getContent().compareTo(i.getContent()) == 0)
+              n.add(i);
+          }
+        }
+        return n;
   }
 }

@@ -1,145 +1,218 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BinaryTree<T> {
+public class BinaryTree<T>
+{
   protected Node<T> root;
 
-  public BinaryTree(T item){
-    root = new Node<T>(item);
+  public BinaryTree()
+  {
+
   }
 
-  public boolean empty(){
+  public boolean empty()
+  {
     return root == null;
   }
 
-  public void clear(){
+  public void clear()
+  {
     root = null;
   }
 
-  public boolean add(T item){
-    LinkedList queue = new LinkedList();
+  public boolean add(T item)
+  {
+	Queue<Node<T>> queue = new LinkedList<Node<T>>();
+
     queue.add(root);
-    while(queue.element().hasHowMany() == 2){
-      queue.add((Node)queue.element().left);
-      queue.add((Node)queue.element().right);
-      queue.removeFirst();
-    }
+	if (empty())
+	{
+		root = new Node<T>(item);
+		return true;
+	}
 
-    if (queue.element().left == null) {
-      queue.element().left = new Node(item);
-    }
-    else {
-      queue.element().right = new Node(item);
-    }
+	while (queue.peek().hasChildren())
+	{
+		queue.add(queue.peek().left);
+		queue.add(queue.peek().right);
+		queue.remove();
+	}
+
+	if (queue.peek().hasLeftChild())
+	{
+		queue.peek().addRight(item);
+	}
+	else
+	{
+		queue.peek().addLeft(item);
+	}
+	return true;
   }
 
-  //TODO
-  public void remove(T item) throws NullPointerException{
-    if(!contains(item)) throw new NullPointerException("You Fool!!! Why???");
+//  public void remove(T item) throws NullPointerException
+//  {
+//	  if(!this.contains(item))
+//		  throw new NullPointerException("You Fool!!! Why???");
+//
+//	  Node<T> n = get(item);
+//	  Node<T> parent;
+//	  if (!n.hasChildren())
+//		  n = null;
+//	  else if (n.hasLeftChild())
+//		  parent = n.left;
+//	  else
+//		  parent = n.right;
+//	  Node<T> child = n.left;
+//	  while(parent.right.right != null)
+//	  {
+//		  parent = parent.right;
+//	  }
+//	  child = parent.right;
+//	  n.content = child.content;
+//	  parent.right = child.left;
+//  }
 
 
-
-  }
-
-  public boolean contains(T item){
+//  public Node<T> getParent(Node<T> c)
+//  {
+//	  Queue<Node<T>> queue = new LinkedList<Node<T>>();
+//	  T item = c.content;
+//
+//	  if (!contains(item))
+//		  throw new NullPointerException("Item Does Not Exist");
+//
+//	  queue.add(root);
+//
+//	  while (!queue.peek().left.equals(item) || !queue.peek().right.equals(item))
+//	  {
+//		  if (queue.peek().hasChildren())
+//		  {
+//			  queue.add(queue.peek().left);
+//			  queue.add(queue.peek().right);
+//		  }
+//		  else if (queue.peek().hasLeftChild())
+//		  {
+//			  queue.add(queue.peek().left);
+//		  }
+//		  else if (queue.peek().hasRightChild())
+//		  {
+//			  queue.add(queue.peek().left);
+//		  }
+//		  queue.remove();
+//	  }
+//	  return queue.peek();
+//  }
+//
+  public boolean contains(T item)
+  {
     return contains(item, root);
   }
 
-  public boolean contains(T item, Node<T> n){
-    if (n.getContent() == item){
-      return true;
+  public boolean contains(T item, Node<T> n)
+  {
+	if (n == null)
+	{
+		return false;
+	}
+	else if (n.content.equals(item))
+    {
+    	return true;
     }
-    else if (n == null){
-      return false;
+    else
+    {
+    	return contains(item, n.left) || contains(item, n.right);
     }
-    else{
-      return contains(item, n.left) || contains(item, n.right);
-    }
-    return false;
   }
 
-  //TODO
-  public Node<T> get(T item) throws NullPointerException{
-    if (!contains(item)) throw new NullPointerException();
+  public Node<T> get(T item) throws NullPointerException
+  {
+	  if (!contains(item))
+          throw new NullPointerException("Item Does Not Exist");
 
-    while (root.compareTo(item) )
-    while(queue.peek().hasHowMany() == 2){
-      queue.add(queue.peek().left);
-      queue.add(queue.peek().right);
-      if(queue.peek().equals(item))
+      Queue<Node<T>> queue = new LinkedList<Node<T>>();
+      queue.add(root);
+
+      while (!queue.peek().content.equals(item))
       {
-        return queue.peek()
+          if (queue.peek().hasChildren())
+          {
+              queue.add(queue.peek().left);
+              queue.add(queue.peek().right);
+          }
+          else if (queue.peek().hasLeftChild())
+          {
+              queue.add(queue.peek().left);
+          }
+          else if (queue.peek().hasRightChild())
+          {
+              queue.add(queue.peek().left);
+          }
+          queue.remove();
       }
-      queue.remove();
-    }
-
-    if (queue.peek().left.equals(item)) {
-      return queue.peek()
-    }
-    else if(queue.peek().right.equals(item)) {
-      return queue.peek()
-    }
+      return queue.peek();
   }
 
-  //TODO
-  public Node<T> get(T item, Node<T> n){
-    if (n.getContent() = item){
-      return n;
-    }
 
-    else{
+  // public java.util.Iterator<T> breadthFirst(){
+  //   return new TreeIterable(this, false);
 
-    }
-  }
+  // //TODO
+  // public java.util.Iterator<T> breadthFirst(){
+  //
+  // }
 
-  //TODO
-  public java.util.Iterator<T> breadthFirst(){
+  // //TODO
+  // public java.util.Iterator<T> depthFirst(){
+  //
+  // }
 
-  }
+  public class Node<T>
+  {
+	  protected T content;
+	  protected Node<T> left;
+	  protected Node<T> right;
 
-  //TODO
-  public java.util.Iterator<T> depthFirst(){
-
-  }
-
-  public class Node<T>{
-    private T contents;
-    public Node<T> left;
-    public Node<T> right;
-
-      public Node(T data){
-        contents = data;
+      public Node(T item)
+      {
+        content = item;
       }
 
-      public boolean addLeft(Node<T> n, T item){
-        n.left = new Node<T>(item);
+      public String toString()
+      {
+    	  return "" + content;
+      }
+
+      public boolean addLeft(T item)
+      {
+        left = new Node<T>(item);
         return true;
       }
 
-      public boolean addRight(Node<T> n, T item){
-        n.right = new Node<T>(item);
+      public boolean addRight(T item)
+      {
+        right = new Node<T>(item);
         return true;
       }
 
-      // returns true if both left and right are occupied
-      public int children(){
-        if (left != null && right != null)
-      		return 2;
-        if (left == null && right == null)
-          return 0;
-        return 1;
-      }
-
-      public boolean hasLeftChild(){
-        if (left != null)
+      public boolean hasChildren()
+      {
+        if(left != null && right != null)
         	return true;
         return false;
       }
 
-        public boolean hasRightChild(){
-        	if (right != null)
-        		return true;
-        	return false;
-        }
+      public boolean hasLeftChild()
+      {
+    	if(left != null && right == null)
+    		return true;
+    	return false;
+      }
+
+      public boolean hasRightChild()
+      {
+    	if(left == null && right != null)
+    		return true;
+        return false;
+      }
     }
   }
